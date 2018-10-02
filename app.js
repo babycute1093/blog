@@ -7,8 +7,9 @@ var controllers = require(__dirname + "/apps/controllers");
 var host = config.get("server.host");
 var port = config.get("server.port")
 
-app.use(controllers);
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+app.use(controllers);
 
 app.set("views", __dirname + "/apps/views");
 app.set("view engine", "ejs");
