@@ -9,5 +9,7 @@
         "database" : "blog",
         "user" : "tdhcuong",
         "password" : "123456"
-    }
+    },
+    "salt":10,
+    "secret_key":"secretkey"
 }

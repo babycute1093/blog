@@ -1,6 +1,7 @@
 var express = require("express");
 var config = require("config");
 var bodyParser = require("body-parser");
+var session = require("express-session");
 
 var app = express();
 var controllers = require(__dirname + "/apps/controllers");
@@ -9,6 +10,13 @@ var port = config.get("server.port")
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: config.get("secret_key"),
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 app.use(controllers);
 
 app.set("views", __dirname + "/apps/views");
