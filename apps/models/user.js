@@ -1,4 +1,4 @@
-var q = require("q")
+var q = require("q");
 var db = require("../common/database");
 
 var conn = db.getConnnection();

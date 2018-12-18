@@ -1,10 +1,21 @@
 var express = require("express");
 var router = express.Router();
 var user_md = require("../models/user");
+var post_md = require("../models/post")
 var helper = require("../helpers/helper");
 
 router.get("/", function(req, res){
-    res.json({"message" : "This is admin page"});
+    //res.json({"message" : "This is admin page"});
+    var data = post_md.getAllPosts();
+    data.then(function(posts){
+        var data = {
+            posts : posts,
+            error : false
+        }
+        res.render("admin/dashboard",{data: data});
+    }).catch(function(err){
+        res.render("admin/dashboard",{data: {error : "Fail to get posts!"}});
+    });
 });
 
 router.get("/signin", function(req, res){
@@ -44,15 +55,15 @@ router.post("/signup", function(req, res){
    var user = req.body;
   
    if(user.email.trim().length == 0){
-        return res.render("signup", {data : {error: "Email is required"}});
+        res.render("signup", {data : {error: "Email is required"}});
    }
 
    if(user.passwd.trim().length == 0){
-        return res.render("signup", {data : {error: "Password is required"}});
+        res.render("signup", {data : {error: "Password is required"}});
    }
 
    if(user.passwd != user.repasswd && user.passwd.trim().length != 0){
-        return res.render("signup", {data : {error: "Password is not match"}});
+        res.render("signup", {data : {error: "Password is not match"}});
    }
 
    var encrypt_password = helper.hash_password(user.passwd);
@@ -70,6 +81,5 @@ router.post("/signup", function(req, res){
         res.render("signup", {data : {error: err}});
    });
 });
-
 
 module.exports = router;
