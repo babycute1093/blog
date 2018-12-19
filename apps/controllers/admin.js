@@ -82,4 +82,33 @@ router.post("/signup", function(req, res){
    });
 });
 
+router.get("/post/new", function(req, res){
+    res.render("admin/post/new", {data: {error: false}});
+});
+
+router.post("/post/new", function(req, res){
+    var params = req.body;
+
+    if(params.title.trim().length == 0){
+        var data = {
+            error : "Please enter a title!"
+        };
+        res.render("admin/post/new", {data: data});
+    } else {
+        var now = new Date();
+        params.created_at = now;
+        params.update_at = now;
+
+        var data = post_md.addPost(params);
+        data.then(function(result){
+            res.redirect("/admin");
+        }).catch(function(error){
+            var data = {
+                error: "Could not insert into database!"
+            };
+            res.render("admin/post/new", {data: data});
+        });
+    }
+});
+
 module.exports = router;
