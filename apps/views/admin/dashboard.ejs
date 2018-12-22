@@ -3,6 +3,7 @@
     <head>
         <title>Dash Board</title>
         <%- include layout/head %>
+        <script type="text/javascript" src="/static/js/post.js"></script>
     </head>
     <body>
         <%- include layout/nav %>
@@ -41,8 +42,8 @@
                                                         <td><%= data.posts[i].created_at %></td>
                                                         <td><%= data.posts[i].update_at %></td>
                                                         <td>
-                                                            <a href="" class="btn btn-primary">Edit</a>
-                                                            <a href="" class="btn btn-danger">Delete</a>
+                                                            <a href="/admin/post/edit/<%= data.posts[i].id %>" class="btn btn-primary">Edit</a>
+                                                            <button class="btn btn-danger post_delete" post_id="<%= data.posts[i].id %>">Delete</button>
                                                         </td>
                                                     </tr>    
                                                 <%}%>
